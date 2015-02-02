@@ -3,20 +3,19 @@ augroup GIT
     autocmd FileType gitcommit call s:GitDiffCachedPreview(18)
 augroup END
 
-function! s:GitDiffCachedPreview(max_height)
+function! s:GitDiffCachedPreview(max_height) abort
     if (!&previewwindow) && (expand('%:t') !~# 'index')
-        DiffGitCached
+
+        let MATCHES_COMMAND_EXACTLY = 2
+        if exists(':DiffGitCached') == MATCHES_COMMAND_EXACTLY
+            DiffGitCached
+        else
+            throw "ERROR: git-diff-cached-preview couldn't call built in 'DiffGitCached' command"
+        endif
 
         let lines = line('$')
 
-        "close if empty
-        if lines == 0
-            pclose
-            wincmd p
-            finish
-
-            " resize to show maximum or less
-        elseif line('$') > a:max_height
+        if line('$') > a:max_height
             let size = a:max_height
         else
             let size = line('$')
