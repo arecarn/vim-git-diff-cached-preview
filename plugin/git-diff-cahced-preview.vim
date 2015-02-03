@@ -6,12 +6,14 @@ augroup END
 function! s:GitDiffCachedPreview(max_height) abort
     if (!&previewwindow) && (expand('%:t') !~# 'index')
 
-        let MATCHES_COMMAND_EXACTLY = 2
-        if exists(':DiffGitCached') == MATCHES_COMMAND_EXACTLY
-            DiffGitCached
-        else
-            throw "ERROR: git-diff-cached-preview couldn't call built in 'DiffGitCached' command"
-        endif
+        " let MATCHES_COMMAND_EXACTLY = 2
+        " if exists(':DiffGitCached') == MATCHES_COMMAND_EXACTLY
+        "     DiffGitCached
+        " else
+        "     throw "git-diff-cached-preview couldn't call built in 'DiffGitCached' command"
+        " endif
+        "
+        DiffGitCached
 
         let lines = line('$')
 
